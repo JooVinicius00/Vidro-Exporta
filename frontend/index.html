@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Back-office de catálogo e precificação internacional da Vidro Exporta.">
+  <title>Vidro Exporta | Back-office</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark" data-icon="brand"></span>
+      <div><strong>Vidro Exporta</strong><small>BACK-OFFICE</small></div>
+    </div>
+    <nav aria-label="Menu principal">
+      <p class="nav-label">Operações</p>
+      <button class="nav-button active" data-view="pricing" aria-current="page"><span data-icon="globe"></span>Precificação</button>
+      <button class="nav-button" data-view="catalog"><span data-icon="box"></span>Catálogo</button>
+      <button class="nav-button" data-view="quotes"><span data-icon="file"></span>Cotações</button>
+    </nav>
+    <div class="workspace">
+      <div class="workspace-icon" data-icon="building"></div>
+      <div><strong>Vidro Exporta</strong><small>Ambiente local</small></div>
+    </div>
+  </aside>
+  <div class="application">
+    <header class="topbar">
+      <div class="breadcrumb"><span>Operações</span><span data-icon="chevron"></span><strong id="breadcrumb">Precificação</strong></div>
+      <div class="top-actions">
+        <span class="currency-tag"><span data-icon="coins"></span> Base BRL</span>
+        <button class="button primary" id="top-action"><span data-icon="plus"></span><span id="top-action-label">Nova cotação</span></button>
+      </div>
+    </header>
+    <main>
+      <div class="page-title">
+        <h1 id="page-title">Precificação internacional</h1>
+        <p id="page-description">Consulte preços de venda na moeda do mercado de destino.</p>
+      </div>
+
+      <section id="view-pricing" aria-label="Precificação internacional">
+        <div class="market-banner">
+          <div class="market-content">
+            <div class="market-kicker"><span data-icon="globe"></span> Mercado de destino</div>
+            <label class="visually-hidden" for="market">País de destino</label>
+            <div class="market-select"><span id="flag" class="flag" aria-hidden="true"></span><select id="market" disabled><option>Carregando mercados…</option></select><span data-icon="down"></span></div>
+            <p id="currency-description">Selecione o país para converter os preços.</p>
+          </div>
+        </div>
+        <div class="metrics">
+          <article class="metric">
+            <span class="metric-icon blue" data-icon="exchange"></span>
+            <div><h2>Taxa de câmbio</h2><strong id="metric-rate">—</strong><small id="metric-source">Carregando taxa…</small></div>
+            <button class="icon-button refresh" id="refresh" title="Atualizar câmbio" aria-label="Atualizar câmbio" data-icon="refresh" disabled></button>
+          </article>
+          <article class="metric">
+            <span class="metric-icon violet" data-icon="chart"></span>
+            <div><h2>Lucro sobre o custo</h2><strong>100%</strong><small>Preço-base = custo × 2</small></div>
+          </article>
+          <article class="metric">
+            <span class="metric-icon green" data-icon="box"></span>
+            <div><h2>Produtos ativos</h2><strong id="metric-products">—</strong><small>Disponíveis para cotação</small></div>
+          </article>
+        </div>
+        <p class="notice" id="pricing-notice" role="status" hidden></p>
+        <section class="panel" aria-labelledby="prices-heading">
+          <div class="panel-heading">
+            <div><h2 id="prices-heading">Preços por produto</h2><p>Valores unitários na moeda selecionada</p></div>
+            <label class="search"><span data-icon="search"></span><input id="price-search" type="search" placeholder="Buscar produto…" aria-label="Buscar produtos por nome ou SKU"></label>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Produto</th><th>Capacidade</th><th class="numeric">Custo (BRL)</th><th class="numeric">Venda (BRL)</th><th class="numeric" id="local-column">Preço local</th><th><span class="visually-hidden">Ação</span></th></tr></thead>
+              <tbody id="price-rows"><tr><td colspan="6" class="empty">Carregando produtos…</td></tr></tbody>
+            </table>
+          </div>
+          <footer class="panel-footer"><span id="price-count">—</span><button class="button secondary small" id="open-cart"><span data-icon="file"></span><span id="cart-label">Abrir cotação</span></button></footer>
+        </section>
+      </section>
+
+      <section id="view-catalog" hidden aria-label="Catálogo">
+        <section class="panel">
+          <div class="panel-heading">
+            <div><h2>Produtos cadastrados</h2><p>Gerencie os custos e a disponibilidade do catálogo.</p></div>
+            <label class="search"><span data-icon="search"></span><input id="catalog-search" type="search" placeholder="Buscar produto…" aria-label="Buscar no catálogo"></label>
+          </div>
+          <div class="table-scroll">
+            <table><thead><tr><th>Produto</th><th>Capacidade</th><th class="numeric">Custo (BRL)</th><th>Status</th><th>Ações</th></tr></thead><tbody id="catalog-rows"></tbody></table>
+          </div>
+          <footer class="panel-footer"><span id="catalog-count">—</span></footer>
+        </section>
+      </section>
+
+      <section id="view-quotes" hidden aria-label="Cotações">
+        <section class="panel">
+          <div class="panel-heading"><div><h2>Histórico de cotações</h2><p>Consulte os valores e a taxa registrados em cada cotação.</p></div></div>
+          <div class="table-scroll">
+            <table><thead><tr><th>Número</th><th>Cliente</th><th>Destino</th><th>Data</th><th class="numeric">Total</th><th><span class="visually-hidden">Ação</span></th></tr></thead><tbody id="quote-rows"></tbody></table>
+          </div>
+        </section>
+      </section>
+      <footer class="main-footer"><span>Vidro Exporta</span><span>Precificação de exportação</span></footer>
+    </main>
+  </div>
+
+  <dialog id="product-dialog" aria-labelledby="product-title">
+    <form id="product-form">
+      <div class="dialog-heading"><div><h2 id="product-title">Novo produto</h2><p>Informe os dados e o custo unitário em reais.</p></div><button type="button" class="icon-button" data-close="product-dialog" aria-label="Fechar" data-icon="close"></button></div>
+      <div class="dialog-body form-grid">
+        <label class="wide">Nome<input name="name" required maxlength="80"></label>
+        <label>SKU<input name="sku" required maxlength="24" pattern="[A-Za-z0-9][A-Za-z0-9._\-]{0,23}" placeholder="VE-007"></label>
+        <label>Categoria<input name="category" required maxlength="40" placeholder="Long drink"></label>
+        <label>Capacidade (ml)<input type="number" name="capacity" required min="1" max="10000" step="1"></label>
+        <label>Custo unitário (BRL)<input name="cost" required inputmode="decimal" placeholder="0,00"></label>
+        <label class="wide">Formato<select name="style"><option value="highball">Copo alto</option><option value="rocks">Copo baixo</option><option value="ribbed">Copo canelado</option><option value="water">Copo de água</option></select></label>
+        <p class="form-error wide" id="product-error" role="alert" hidden></p>
+      </div>
+      <div class="dialog-footer"><button type="button" class="button secondary" data-close="product-dialog">Cancelar</button><button class="button primary" type="submit">Salvar produto</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="cart-dialog" aria-labelledby="cart-title">
+    <form id="cart-form">
+      <div class="dialog-heading"><div><h2 id="cart-title">Nova cotação</h2><p id="cart-market"></p></div><button type="button" class="icon-button" data-close="cart-dialog" aria-label="Fechar" data-icon="close"></button></div>
+      <div class="dialog-body">
+        <label class="field">Cliente<input name="customer" maxlength="100" required placeholder="Nome ou razão social"></label>
+        <label class="field cart-select">Adicionar produto<select id="cart-product"><option value="">Selecione um produto</option></select></label>
+        <div id="cart-items"></div>
+        <div class="cart-total"><span>Total da cotação</span><strong id="cart-total">—</strong></div>
+        <p class="notice" id="cart-rate-note" hidden></p>
+        <p class="form-error" id="cart-error" role="alert" hidden></p>
+      </div>
+      <div class="dialog-footer"><button type="button" class="button secondary" data-close="cart-dialog">Voltar</button><button class="button primary" type="submit" id="save-quote">Salvar cotação</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="detail-dialog" aria-labelledby="detail-title">
+    <div class="dialog-heading"><div><h2 id="detail-title">Cotação</h2><p id="detail-subtitle"></p></div><button type="button" class="icon-button" data-close="detail-dialog" aria-label="Fechar" data-icon="close"></button></div>
+    <div class="dialog-body" id="detail-body"></div>
+    <div class="dialog-footer"><button type="button" class="button secondary" data-close="detail-dialog">Fechar</button><button type="button" class="button primary" id="print-quote"><span data-icon="print"></span>Imprimir</button></div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>
